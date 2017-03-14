@@ -1,0 +1,185 @@
+﻿<Window x:Class="ChoPGP4Win.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChoPGP4Win"
+        xmlns:pgp="clr-namespace:Cinchoo.PGP;assembly=ChoPGP"
+        xmlns:bc="clr-namespace:Org.BouncyCastle.Bcpg;assembly=BouncyCastle.Crypto"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="PGP for Windows - Cinchoo Inc." Height="508.667" Width="915.667" Icon="App.ico"
+        ResizeMode="NoResize" FontSize="16" FontWeight="Bold" >
+    <Window.Resources>
+        <ObjectDataProvider x:Key="CompressionAlgorithmValues"
+            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="bc:CompressionAlgorithmTag"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="SymmetricKeyAlgorithmValues"
+            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="bc:SymmetricKeyAlgorithmTag"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="PgpSignatureValues"
+            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:PgpSignatureTag"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="PublicKeyAlgorithmValues"
+            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="bc:PublicKeyAlgorithmTag"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <GroupBox Header="Options" DockPanel.Dock="Right" Margin="5" Width="263" Background="AliceBlue">
+            <StackPanel Margin="5">
+                <Label>Compression Algorithm</Label>
+                <ComboBox Margin="5,0,0,0"  ItemsSource="{Binding Source={StaticResource CompressionAlgorithmValues}}" SelectedItem="{Binding Path=PGPOptions.CompressionAlgorithm}"></ComboBox>
+                <Label>Symmetric Key Algorithm</Label>
+                <ComboBox Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource SymmetricKeyAlgorithmValues}}" SelectedItem="{Binding Path=PGPOptions.SymmetricKeyAlgorithm}"></ComboBox>
+                <Label>Public Key Algorithm</Label>
+                <ComboBox Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource PublicKeyAlgorithmValues}}" SelectedItem="{Binding Path=PGPOptions.PublicKeyAlgorithm}"></ComboBox>
+                <Label>PGP Signature</Label>
+                <ComboBox Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource PgpSignatureValues}}" SelectedItem="{Binding Path=PGPOptions.PgpSignature}"></ComboBox>
+            </StackPanel>
+        </GroupBox>
+        <TabControl Margin="5" BorderThickness="0" Background="AliceBlue" >
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="AliceBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="Background" Value="LightGray" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Encrypt File">
+                <DockPanel LastChildFill="True">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="15" DockPanel.Dock="Bottom">
+                        <Button Name="btnEncryptAndSign" Width="150" Margin="5,0,0,0" Click="btnEncryptAndSign_Click">Encrypt and Sign</Button>
+                        <Button Name="btnEncrypt" Width="150" Margin="5,0,0,0" Click="btnEncrypt_Click">Encrypt</Button>
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" >
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Input File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.InputFilePath}" ></TextBox>
+                            <Button Name="btnEncryptInputFilePath" Width="30" Margin="5,0,0,0" Click="btnEncryptInputFilePath_Click">...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Output File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.OutputFilePath}"></TextBox>
+                            <Button Name="btnEncryptOutputFilePath"  Width="30" Margin="5,0,0,0" Click="btnEncryptOutputFilePath_Click">...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Public Key File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.PublicKeyFilePath}"></TextBox>
+                            <Button Name="btnEncryptPublicKeyFilePath" Width="30" Margin="5,0,0,0" Click="btnEncryptPublicKeyFilePath_Click">...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Private Key File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.PrivateKeyFilePath}"></TextBox>
+                            <Button Name="btnEncryptPrivateKeyFilePath" Width="30" Margin="5,0,0,0" Click="btnEncryptPrivateKeyFilePath_Click">...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Pass Phrase</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.PassPhrase}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Armor</Label>
+                            <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Path=PGPEncryptFileOptions.Armor}"></CheckBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Integrity Check</Label>
+                            <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Path=PGPEncryptFileOptions.IntegrityCheck}"></CheckBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Decrypt File" >
+                <DockPanel LastChildFill="True">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="15" DockPanel.Dock="Bottom">
+                        <Button Name="btnDecrypt" Width="150" Margin="5,0,0,0" Click="btnDecrypt_Click" >Decrypt</Button>
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" >
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Input File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.InputFilePath}" ></TextBox>
+                            <Button Name="btnDecryptInputFilePath" Width="30" Margin="5,0,0,0" Click="btnDecryptInputFilePath_Click" >...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Output File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.OutputFilePath}"></TextBox>
+                            <Button Name="btnDecryptOutputFilePath"  Width="30" Margin="5,0,0,0" Click="btnDecryptOutputFilePath_Click" >...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Private Key File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.PrivateKeyFilePath}"></TextBox>
+                            <Button Name="btnDecryptPrivateKeyFilePath" Width="30" Margin="5,0,0,0" Click="btnDecryptPrivateKeyFilePath_Click" >...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Pass Phrase</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.PassPhrase}"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Generate Key" >
+                <DockPanel LastChildFill="True">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="15" DockPanel.Dock="Bottom">
+                        <Button Name="btnGenerateKey" Width="150" Margin="5,0,0,0" Click="btnGenerateKey_Click" >Generate</Button>
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" >
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Public Key File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPGenerateKeyOptions.PublicKeyFilePath}"></TextBox>
+                            <Button Name="btnPublicKeyFilePath" Width="30" Margin="5,0,0,0" Click="btnPublicKeyFilePath_Click" >...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Private Key File Path</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPGenerateKeyOptions.PrivateKeyFilePath}"></TextBox>
+                            <Button Name="btnPrivateKeyFilePath" Width="30" Margin="5,0,0,0" Click="btnPrivateKeyFilePath_Click" >...</Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Identity</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPGenerateKeyOptions.Identity}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Pass Phrase</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPGenerateKeyOptions.PassPhrase}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Strength</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPGenerateKeyOptions.Strength}" PreviewTextInput="TextBoxPreviewTextInput" DataObject.Pasting="TextBoxPasting" ></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Width="200">Certainty</Label>
+                            <TextBox Width="350" Text="{Binding Path=PGPGenerateKeyOptions.Certainty}" PreviewTextInput="TextBoxPreviewTextInput" DataObject.Pasting="TextBoxPasting" ></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
