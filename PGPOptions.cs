@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ChoPGP4Win
 {
     public class PGPOptions : INotifyPropertyChanged
-    {
+    { 
         private CompressionAlgorithmTag _compressionAlgorithm;
         public CompressionAlgorithmTag CompressionAlgorithm
         {
