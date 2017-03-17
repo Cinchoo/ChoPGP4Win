@@ -35,6 +35,12 @@
                 <x:Type TypeName="bc:PublicKeyAlgorithmTag"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider x:Key="PgpFileTypeValues"
+            MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="pgp:ChoPGPFileType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
     <DockPanel LastChildFill="True">
         <GroupBox Header="Options" DockPanel.Dock="Right" Margin="5" Width="263" Background="AliceBlue">
@@ -47,6 +53,8 @@
                 <ComboBox Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource PublicKeyAlgorithmValues}}" SelectedItem="{Binding Path=PGPOptions.PublicKeyAlgorithm}"></ComboBox>
                 <Label>PGP Signature</Label>
                 <ComboBox Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource PgpSignatureValues}}" SelectedItem="{Binding Path=PGPOptions.PgpSignature}"></ComboBox>
+                <Label>File Type</Label>
+                <ComboBox Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource PgpFileTypeValues}}" SelectedItem="{Binding Path=PGPOptions.PGPFileType}"></ComboBox>
             </StackPanel>
         </GroupBox>
         <TabControl Margin="5" BorderThickness="0" Background="AliceBlue" >
@@ -83,12 +91,12 @@
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" >
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Width="200">Input File Path</Label>
+                            <Label Width="200">Input Data File Path</Label>
                             <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.InputFilePath}" ></TextBox>
                             <Button Name="btnEncryptInputFilePath" Width="30" Margin="5,0,0,0" Click="btnEncryptInputFilePath_Click">...</Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Width="200">Output File Path</Label>
+                            <Label Width="200">Output Data File Path</Label>
                             <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.OutputFilePath}"></TextBox>
                             <Button Name="btnEncryptOutputFilePath"  Width="30" Margin="5,0,0,0" Click="btnEncryptOutputFilePath_Click">...</Button>
                         </StackPanel>
@@ -124,12 +132,12 @@
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" >
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Width="200">Input File Path</Label>
+                            <Label Width="200">Input Data File Path</Label>
                             <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.InputFilePath}" ></TextBox>
                             <Button Name="btnDecryptInputFilePath" Width="30" Margin="5,0,0,0" Click="btnDecryptInputFilePath_Click" >...</Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Width="200">Output File Path</Label>
+                            <Label Width="200">Output Data File Path</Label>
                             <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.OutputFilePath}"></TextBox>
                             <Button Name="btnDecryptOutputFilePath"  Width="30" Margin="5,0,0,0" Click="btnDecryptOutputFilePath_Click" >...</Button>
                         </StackPanel>

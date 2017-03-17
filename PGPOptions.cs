@@ -67,6 +67,20 @@ namespace ChoPGP4Win
             }
         }
 
+        private ChoPGPFileType _fileType;
+        public ChoPGPFileType PGPFileType
+        {
+            get { return _fileType; }
+            set
+            {
+                if (_fileType != value)
+                {
+                    _fileType = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public PGPOptions()
@@ -75,6 +89,7 @@ namespace ChoPGP4Win
             SymmetricKeyAlgorithm = ChoAppSettings.GetValue<SymmetricKeyAlgorithmTag>("SymmetricKeyAlgorithm", SymmetricKeyAlgorithmTag.TripleDes, true);
             PublicKeyAlgorithm = ChoAppSettings.GetValue<PublicKeyAlgorithmTag>("PublicKeyAlgorithm", PublicKeyAlgorithmTag.RsaGeneral, true);
             PgpSignature = ChoAppSettings.GetValue<PgpSignatureTag>("PgpSignature", PgpSignatureTag.DefaultCertification, true);
+            PGPFileType = ChoAppSettings.GetValue<ChoPGPFileType>("PGPFileType", ChoPGPFileType.Binary, true);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propName = null)

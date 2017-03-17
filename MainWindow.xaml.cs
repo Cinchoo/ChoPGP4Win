@@ -51,6 +51,7 @@ namespace ChoPGP4Win
             get;
             set;
         }
+
         public MainWindow()
         {
             PGPOptions = new PGPOptions();
