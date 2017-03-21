@@ -7,3 +7,9 @@ This tool is a GUI for ChoPGP software to encrypt, sign, decrypt or verify OpenP
 It is a fully featured, lightweight PGP tool for windows.
 
 It allows to encrypt, decrypt, sign and verify files with a nice and absolutely straight GUI, It's absolutely simple to use and provides everything you need to get started with PGP cryptography.
+
+
+
+
++ [Download Setup](https://chopgp4win.codeplex.com/downloads/get/1646727)
++ [Download Binary (Zip)](https://chopgp4win.codeplex.com/downloads/get/1646710)
