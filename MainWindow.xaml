@@ -96,7 +96,7 @@
                             <Button Name="btnEncryptInputFilePath" Width="30" Margin="5,0,0,0" Click="btnEncryptInputFilePath_Click">...</Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Width="200">Output Data File Path</Label>
+                            <Label Width="200">Output PGP File Path</Label>
                             <TextBox Width="350" Text="{Binding Path=PGPEncryptFileOptions.OutputFilePath}"></TextBox>
                             <Button Name="btnEncryptOutputFilePath"  Width="30" Margin="5,0,0,0" Click="btnEncryptOutputFilePath_Click">...</Button>
                         </StackPanel>
@@ -132,7 +132,7 @@
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" >
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <Label Width="200">Input Data File Path</Label>
+                            <Label Width="200">Input PGP File Path</Label>
                             <TextBox Width="350" Text="{Binding Path=PGPDecryptFileOptions.InputFilePath}" ></TextBox>
                             <Button Name="btnDecryptInputFilePath" Width="30" Margin="5,0,0,0" Click="btnDecryptInputFilePath_Click" >...</Button>
                         </StackPanel>
