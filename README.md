@@ -11,5 +11,4 @@ It allows to encrypt, decrypt, sign and verify files with a nice and absolutely 
 
 ![Image](https://user-images.githubusercontent.com/9448455/30031536-e88602aa-915f-11e7-8558-77093dfbd65d.png)
 
-+ [Download Setup](https://chopgp4win.codeplex.com/downloads/get/1646727)
-+ [Download Binary (Zip)](https://chopgp4win.codeplex.com/downloads/get/1646710)
++ [Download Binaries](https://github.com/Cinchoo/ChoPGP4Win/releases)
